@@ -4,6 +4,15 @@ public class GithubUser {
     private String name;
     private String bio;
     private long id;
+    private String avatarUrl;
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
 
     public String getName() {
         return name;
@@ -27,5 +36,15 @@ public class GithubUser {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "GithubUser{" +
+                "name='" + name + '\'' +
+                ", bio='" + bio + '\'' +
+                ", id=" + id +
+                ", avatarUrl='" + avatarUrl + '\'' +
+                '}';
     }
 }
