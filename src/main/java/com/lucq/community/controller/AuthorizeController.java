@@ -7,6 +7,7 @@ import com.lucq.community.model.User;
 import com.lucq.community.provider.GithubProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,7 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.UUID;
 
-@RestController
+@PropertySource({"classpath:application.properties"})
+@Controller
 public class AuthorizeController {
 
     @Autowired
@@ -37,7 +39,7 @@ public class AuthorizeController {
     @GetMapping("/callback")
     public String callback(@RequestParam(name="code") String code,
                            @RequestParam(name="state") String state,
-                           HttpServletRequest request) throws IOException {
+                           HttpServletRequest request) throws Exception {
         AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
         accessTokenDTO.setCode(code);
         accessTokenDTO.setRedirect_uri(redirectUri);
@@ -53,11 +55,12 @@ public class AuthorizeController {
             user.setAccountId(String.valueOf(githubUser.getId()));
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
-            userMapper.insertUser(user);
+//            userMapper.insertUser(user);
+            System.out.println(user);
             request.getSession().setAttribute("user",githubUser);
-            return "redirect:/";
+            return "index";
         }else{
-            return "redirect:/";
+            return "index";
         }
     }
 }
