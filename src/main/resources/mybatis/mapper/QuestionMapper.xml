@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace与接口绑定，即接口的全类名-->
+<mapper namespace="com.lucq.community.mapper.QuestionMapper">
+    <!--配置接口的两个方法-->
+    <!--id是方法名，resultType是返回值的全类名-->
+    <insert id="create">
+        insert into question(title,description,tag,creator,gmt_create,gmt_modified) values (#{title},#{description},#{tag},#{creator},#{gmtCreate},#{gmtModified})
+    </insert>
+
+<!--    <select id="findByToken" resultType="com.lucq.community.model.User">-->
+<!--        select * from user where token = #{token}-->
+<!--    </select>-->
+</mapper>

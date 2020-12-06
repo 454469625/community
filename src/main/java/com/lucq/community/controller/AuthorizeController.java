@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.UUID;
 
@@ -39,26 +41,33 @@ public class AuthorizeController {
     @GetMapping("/callback")
     public String callback(@RequestParam(name="code") String code,
                            @RequestParam(name="state") String state,
-                           HttpServletRequest request) throws Exception {
+                           HttpServletRequest request,
+                           HttpServletResponse response) throws Exception {
         AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
         accessTokenDTO.setCode(code);
         accessTokenDTO.setRedirect_uri(redirectUri);
         accessTokenDTO.setState(state);
         accessTokenDTO.setClient_id(clientId);
         accessTokenDTO.setClient_secret(clientSecret);
+        //获取token
         String accessToken = githubProvider.getAccessToken(accessTokenDTO);
+        //获取github账户，用户名，id等
         GithubUser githubUser = githubProvider.getUserInfo(accessToken);
+        //获取成功
         if (githubUser != null) {
             User user = new User();
-            user.setToken(UUID.randomUUID().toString());
+            //生成一个新的token(账户标识)之后写入cookie中，用于查询数据库
+            String token = UUID.randomUUID().toString();
+            user.setToken(token);
             user.setName(githubUser.getName());
             user.setAccountId(String.valueOf(githubUser.getId()));
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
-//            userMapper.insertUser(user);
-            System.out.println(user);
-            request.getSession().setAttribute("user",githubUser);
-            return "index";
+            //将账户写入数据库
+            userMapper.insertUser(user);
+//            System.out.println(user);
+            response.addCookie(new Cookie("token",token));
+            return "redirect:/";
         }else{
             return "index";
         }

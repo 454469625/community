@@ -9,4 +9,8 @@
     <insert id="insertUser">
         insert into user(name,account_id,token,gmt_create,gmt_modified) values (#{name},#{accountId},#{token},#{gmtCreate},#{gmtModified})
     </insert>
+
+    <select id="findByToken" resultType="com.lucq.community.model.User">
+        select * from user where token = #{token}
+    </select>
 </mapper>
