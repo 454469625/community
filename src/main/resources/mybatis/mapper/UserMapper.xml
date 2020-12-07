@@ -7,10 +7,14 @@
     <!--配置接口的两个方法-->
     <!--id是方法名，resultType是返回值的全类名-->
     <insert id="insertUser">
-        insert into user(name,account_id,token,gmt_create,gmt_modified) values (#{name},#{accountId},#{token},#{gmtCreate},#{gmtModified})
+        insert into user(name,account_id,token,gmt_create,gmt_modified,avatar_url) values (#{name},#{accountId},#{token},#{gmtCreate},#{gmtModified},#{avatarUrl})
     </insert>
 
     <select id="findByToken" resultType="com.lucq.community.model.User">
         select * from user where token = #{token}
+    </select>
+
+    <select id="findById" resultType="com.lucq.community.model.User">
+        select * from user where id = #{id}
     </select>
 </mapper>

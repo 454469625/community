@@ -8,4 +8,6 @@ public interface UserMapper {
     void insertUser(User user);
 
     User findByToken(String token);
+
+    User findById(Integer id);
 }

@@ -10,6 +10,10 @@
         insert into question(title,description,tag,creator,gmt_create,gmt_modified) values (#{title},#{description},#{tag},#{creator},#{gmtCreate},#{gmtModified})
     </insert>
 
+    <select id="List" resultType="com.lucq.community.model.Question">
+        select * from Question
+    </select>
+
 <!--    <select id="findByToken" resultType="com.lucq.community.model.User">-->
 <!--        select * from user where token = #{token}-->
 <!--    </select>-->

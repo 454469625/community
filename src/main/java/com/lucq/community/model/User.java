@@ -7,6 +7,7 @@ public class User {
     private String token;
     private long gmtModified;
     private long gmtCreate;
+    private String avatarUrl;
 
     public Integer getId() {
         return id;
@@ -56,6 +57,14 @@ public class User {
         this.gmtCreate = gmtCreate;
     }
 
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -65,6 +74,7 @@ public class User {
                 ", token='" + token + '\'' +
                 ", gmtModified=" + gmtModified +
                 ", gmtCreate=" + gmtCreate +
+                ", avatar_url='" + avatarUrl + '\'' +
                 '}';
     }
 }

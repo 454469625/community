@@ -1,15 +1,21 @@
 package com.lucq.community.controller;
 
+import com.lucq.community.dto.QuestionDTO;
+import com.lucq.community.mapper.QuestionMapper;
 import com.lucq.community.mapper.UserMapper;
+import com.lucq.community.model.Question;
 import com.lucq.community.model.User;
+import com.lucq.community.service.QuestionService;
 import com.sun.xml.internal.ws.resources.HttpserverMessages;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 public class IndexController {
@@ -17,8 +23,15 @@ public class IndexController {
     @Autowired
     UserMapper userMapper;
 
+//    @Autowired
+//    QuestionMapper questionMapper
+
+    @Autowired
+    QuestionService questionService;
+
     @GetMapping("/")
-    public String index(HttpServletRequest request) {
+    public String index(HttpServletRequest request,
+                        Model model) {
 
         //获取cookie
         Cookie[] cookies = request.getCookies();
@@ -37,7 +50,11 @@ public class IndexController {
                 }
             }
         }
-        
+
+        //要将question类装入QuestionDTO中，引入service层，对question进行包装
+//        List<QuestionDTO> questionList = questionMapper.List();
+        List<QuestionDTO> questionList = questionService.List();
+        model.addAttribute("questions", questionList);
         return "index";
     }
 }

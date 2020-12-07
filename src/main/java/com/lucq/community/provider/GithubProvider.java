@@ -90,7 +90,6 @@ public class GithubProvider {
     }
 
     public GithubUser getUserInfo(String token) throws IOException {
-        System.out.println("getUserInfo中token="+token);
         JSONObject jsonObject = JSON.parseObject(token);
         String stringToken = (String) jsonObject.get("access_token");
         OkHttpClient client = new OkHttpClient();
@@ -102,11 +101,11 @@ public class GithubProvider {
         try (Response response = client.newCall(request).execute()) {
             String userInfo = response.body().string();
             JSONObject userInfoObj = JSON.parseObject(userInfo);
-            GithubUser gitHubUserDTO = new GithubUser();
-            gitHubUserDTO.setId(((Number) userInfoObj.get("id")).longValue());
-            gitHubUserDTO.setName((String) userInfoObj.get("name"));
-            gitHubUserDTO.setAvatarUrl((String) userInfoObj.get("avatar_url"));
-            return gitHubUserDTO;
+            GithubUser githubUser = new GithubUser();
+            githubUser.setId(((Number) userInfoObj.get("id")).longValue());
+            githubUser.setName((String) userInfoObj.get("name"));
+            githubUser.setAvatarUrl((String) userInfoObj.get("avatar_url"));
+            return githubUser;
         }
     }
 
