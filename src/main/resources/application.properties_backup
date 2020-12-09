@@ -1,3 +1,8 @@
 github.client.id=*************
 github.client.secret=**********
 github.redirect.uri=http://localhost:8080/callback
+
+#禁用缓存，之后修改html则会同步更新，此外项目启动期间idea不会编译页面，使用快捷键
+#ctrl+F9，在html文件处使用，使其编译，才会更新页面
+#了解devtool和热部署
+spring.thymeleaf.cache=false

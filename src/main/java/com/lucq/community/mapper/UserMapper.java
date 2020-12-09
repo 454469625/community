@@ -10,4 +10,6 @@ public interface UserMapper {
     User findByToken(String token);
 
     User findById(Integer id);
+
+
 }

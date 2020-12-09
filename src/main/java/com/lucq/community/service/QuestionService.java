@@ -1,5 +1,6 @@
 package com.lucq.community.service;
 
+import com.lucq.community.dto.PaginationDTO;
 import com.lucq.community.dto.QuestionDTO;
 import com.lucq.community.mapper.QuestionMapper;
 import com.lucq.community.mapper.UserMapper;
@@ -21,20 +22,34 @@ public class QuestionService {
     @Autowired
     UserMapper userMapper;
 
-    public List<QuestionDTO> List() {
-        List<Question> questions = questionMapper.List();
+    public PaginationDTO List(Integer page, Integer size) {
+
+        PaginationDTO paginationDTO = new PaginationDTO();
+        Integer totalCount = questionMapper.count();
+        paginationDTO.setPagination(totalCount,page,size);
+
+        if(page < 1){
+            page = 1;
+        }
+        if(page > paginationDTO.getTotalPage()){
+            page = paginationDTO.getTotalPage();
+        }
+
+        Integer offset = size * (page - 1);
+        List<Question> questions = questionMapper.List(offset, size);
         List<QuestionDTO> questionDTOList = new ArrayList<>();
-        for(Question question : questions){
+
+
+        for (Question question : questions) {
             //此处其实可以用多表查询来代替，就不用封装得这么麻烦
-            System.out.println("creator = "+question.getCreator());
             User user = userMapper.findById(question.getCreator());
-            System.out.println(user);
             QuestionDTO questionDTO = new QuestionDTO();
             //将question对象所有属性拷贝到questionDTO中
-            BeanUtils.copyProperties(question,questionDTO);
+            BeanUtils.copyProperties(question, questionDTO);
             questionDTO.setUser(user);
             questionDTOList.add(questionDTO);
         }
-        return questionDTOList;
+        paginationDTO.setQuestionDTOS(questionDTOList);
+        return paginationDTO;
     }
 }
