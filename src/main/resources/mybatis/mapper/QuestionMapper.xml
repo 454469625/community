@@ -14,8 +14,16 @@
         select * from Question limit #{offset},#{size}
     </select>
 
+    <select id="listByUserId" resultType="com.lucq.community.model.Question">
+        select * from Question where creator = #{userId} limit #{offset},#{size}
+    </select>
+
     <select id="count" resultType="java.lang.Integer">
         select count(1) from question
+    </select>
+
+    <select id="countByUserId" resultType="java.lang.Integer">
+        select count(1) from question where creator = #{userId}
     </select>
 
 <!--    <select id="findByToken" resultType="com.lucq.community.model.User">-->
