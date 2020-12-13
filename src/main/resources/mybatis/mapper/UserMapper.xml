@@ -7,7 +7,8 @@
     <!--配置接口的两个方法-->
     <!--id是方法名，resultType是返回值的全类名-->
     <insert id="insertUser">
-        insert into user(name,account_id,token,gmt_create,gmt_modified,avatar_url) values (#{name},#{accountId},#{token},#{gmtCreate},#{gmtModified},#{avatarUrl})
+        insert into user(name,account_id,token,gmt_create,gmt_modified,avatar_url)
+         values (#{name},#{accountId},#{token},#{gmtCreate},#{gmtModified},#{avatarUrl})
     </insert>
 
     <select id="findByToken" resultType="com.lucq.community.model.User">
@@ -17,4 +18,13 @@
     <select id="findById" resultType="com.lucq.community.model.User">
         select * from user where id = #{id}
     </select>
+
+    <select id="findByAccountId" resultType="com.lucq.community.model.User">
+        select * from user where account_id = #{accountId}
+    </select>
+
+    <update id="update" parameterType="com.lucq.community.model.User">
+        update user set avatar_url = #{avatarUrl}, name = #{name}, gmt_modified = #{gmtModified}, token = #{token}
+        where account_id = #{accountId}
+    </update>
 </mapper>

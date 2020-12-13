@@ -23,14 +23,6 @@ import java.util.List;
 public class IndexController {
 
     @Autowired
-    UserMapper userMapper;
-
-
-
-//    @Autowired
-//    QuestionMapper questionMapper
-
-    @Autowired
     QuestionService questionService;
 
     @GetMapping("/")
@@ -38,24 +30,6 @@ public class IndexController {
                         Model model,
                         @RequestParam(name = "page",defaultValue = "1") Integer page,
                         @RequestParam(name = "size",defaultValue = "3") Integer size) {
-
-        //获取cookie
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("token")) {
-                    String token = cookie.getValue();
-                    //根据获取到的token查询数据库
-                    User user = userMapper.findByToken(token);
-                    if (user != null) {
-                        //获取用户名，显示在index页面中
-                        request.getSession().setAttribute("user",user);
-                    }
-                    break;
-                }
-            }
-        }
-
         //要将question类装入QuestionDTO中，引入service层，对question进行包装
 //        List<QuestionDTO> questionList = questionMapper.List();
         PaginationDTO pagination = questionService.List(page,size);
