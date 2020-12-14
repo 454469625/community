@@ -20,4 +20,7 @@ public interface QuestionMapper {
     Integer countByUserId(@Param(value = "userId") Integer userId);
 
     Question getById(Integer id);
+
+    void update(Question question);
+
 }

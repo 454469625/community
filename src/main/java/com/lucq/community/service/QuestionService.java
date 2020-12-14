@@ -22,6 +22,17 @@ public class QuestionService {
     @Autowired
     UserMapper userMapper;
 
+    public  void createOrUpdate(Question question) {
+        if (question.getId() == null) {
+            question.setGmtCreate(System.currentTimeMillis());
+            question.setGmtModified(question.getGmtCreate());
+            questionMapper.create(question);
+        }else {
+            question.setGmtModified(System.currentTimeMillis());
+            questionMapper.update(question);
+        }
+    }
+
     public PaginationDTO List(Integer page, Integer size) {
 
         PaginationDTO paginationDTO = new PaginationDTO();

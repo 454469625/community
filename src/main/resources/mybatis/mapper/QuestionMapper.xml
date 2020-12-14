@@ -7,7 +7,8 @@
     <!--配置接口的两个方法-->
     <!--id是方法名，resultType是返回值的全类名-->
     <insert id="create">
-        insert into question(title,description,tag,creator,gmt_create,gmt_modified) values (#{title},#{description},#{tag},#{creator},#{gmtCreate},#{gmtModified})
+        insert into question(title,description,tag,creator,gmt_create,gmt_modified)
+         values (#{title},#{description},#{tag},#{creator},#{gmtCreate},#{gmtModified})
     </insert>
 
     <select id="List" resultType="com.lucq.community.model.Question">
@@ -29,6 +30,13 @@
     <select id="getById" resultType="com.lucq.community.model.Question">
         select * from question where id = #{id}
     </select>
+
+    <update id="update">
+        update question
+        set title=#{title},description=#{description},
+        tag=#{tag},gmt_modified=#{gmtModified}
+        where id = #{id}
+    </update>
 
 <!--    <select id="findByToken" resultType="com.lucq.community.model.User">-->
 <!--        select * from user where token = #{token}-->
